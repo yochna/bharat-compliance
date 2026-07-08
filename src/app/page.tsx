@@ -211,7 +211,7 @@ export default function HomePage() {
             <button className="text-xs text-[#FF5C1A] border border-[#FF5C1A] px-2.5 py-1 rounded font-mono hover:bg-[#FF5C1A] hover:text-white transition-colors">
               EN
             </button>
-            <button className="text-xs text-[#444] border border-[#2A2A2A] px-2.5 py-1 rounded font-mono hover:border-[#444] hover:text-[#888] transition-colors">
+            <button className="text-xs text-[#6c6b6b] border border-[#2A2A2A] px-2.5 py-1 rounded font-mono hover:border-[#444] hover:text-[#888] transition-colors">
               हिं
             </button>
           </div>

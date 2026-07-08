@@ -39,10 +39,14 @@ export function Navbar() {
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
+          <Link href="/login">
           <Button variant="ghost" size="sm">Sign in</Button>
+          </Link>
+          <Link href="/register">
           <Button variant="primary" size="sm">
-            Get started <ArrowRight size={14} />
+            Get Started <ArrowRight size={14}/>
           </Button>
+          </Link>
         </div>
 
         {/* Mobile Hamburger */}
