@@ -1,9 +1,21 @@
-import React from "react";
+import { getServerSession } from "next-auth"
+import { redirect } from "next/navigation"
+import { Sidebar } from "@/app/components/dashboard/Sidebar"
 
-export default function DashboardLayout({children}:{children:React.ReactNode}){
-    return(
-        <div className="min-h-screen bg-[#0A0A0A] text-[#F0EDE6]">
-            {children}
-        </div>
-    )
+export default async function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const session = await getServerSession()
+  if (!session) redirect("/login")
+
+  return (
+    <div className="min-h-screen bg-[#0F1117] text-white flex">
+      <Sidebar user={session.user} />
+      <main className="flex-1 ml-[240px] min-h-screen">
+        {children}
+      </main>
+    </div>
+  )
 }

@@ -15,14 +15,27 @@ const handler = NextAuth({
     signIn: "/login",
   },
   session: {
-    strategy: "database",
+    strategy: "jwt",
   },
   callbacks: {
-    async redirect({ baseUrl }) {
+    async jwt({ token, user, account }) {
+      if (user) {
+        token.id = user.id
+      }
+      return token
+    },
+    async session({ session, token }) {
+      if (session.user && token) {
+        (session.user as { id?: string }).id = token.id as string
+      }
+      return session
+    },
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith("/")) return `${baseUrl}${url}`
+      if (url.startsWith(baseUrl)) return url
       return `${baseUrl}/dashboard`
     },
   },
-  debug: true,
 })
 
 export { handler as GET, handler as POST }

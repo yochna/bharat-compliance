@@ -4,6 +4,7 @@ import { Navbar } from "./components/marketing/Navbar"
 import { AnimateTerminal } from "./components/marketing/AnimatedTerminal"
 import { AnimateIn } from "./components/ui/AnimateIn"
 import { CountUp } from "./components/ui/CountUp"
+import Link from "next/link"
 import { motion } from "framer-motion"
 import {
   Rocket,
@@ -249,9 +250,153 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+{/* Pricing */}
+<section id="pricing" className="border-t border-[#1A1A1A] px-6 md:px-10 py-20">
+  <div className="max-w-5xl mx-auto">
 
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+      className="text-center mb-14"
+    >
+      <div className="inline-flex items-center gap-2 border border-[#2A2A2A] rounded px-3 py-1.5 text-[11px] text-[#666] uppercase tracking-widest mb-6">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#FF5C1A] inline-block"></span>
+        Simple pricing
+      </div>
+      <h2 className="text-4xl font-bold text-[#F0EDE6] tracking-tight mb-4">
+        Start free. Scale when ready.
+      </h2>
+      <p className="text-sm text-[#555] max-w-md mx-auto">
+        No credit card required. Cancel anytime.
+      </p>
+    </motion.div>
+
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {[
+        {
+          name: "Free",
+          price: "₹0",
+          period: "forever",
+          desc: "Perfect for getting started",
+          features: [
+            "5 GST filings/month",
+            "3 legal documents",
+            "Deadline reminders",
+            "Email support",
+          ],
+          cta: "Get started",
+          highlighted: false,
+        },
+        {
+          name: "Pro",
+          price: "₹499",
+          period: "per month",
+          desc: "For growing businesses",
+          features: [
+            "Unlimited GST filings",
+            "Unlimited documents",
+            "AI analysis",
+            "Hindi + English",
+            "Priority support",
+          ],
+          cta: "Start Pro",
+          highlighted: true,
+        },
+        {
+          name: "Business",
+          price: "₹1,499",
+          period: "per month",
+          desc: "For teams and enterprises",
+          features: [
+            "Everything in Pro",
+            "5 team members",
+            "API access",
+            "Custom documents",
+            "Dedicated support",
+          ],
+          cta: "Contact us",
+          highlighted: false,
+        },
+      ].map((plan, i) => (
+        <motion.div
+          key={plan.name}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: i * 0.1 }}
+          whileHover={{ scale: 1.02 }}
+          className={`rounded-2xl p-6 border transition-colors ${
+            plan.highlighted
+              ? "bg-[#FF5C1A] border-[#FF5C1A]"
+              : "bg-[#0D0D0D] border-[#1E1E1E] hover:border-[#2A2A2A]"
+          }`}
+        >
+          <div className="mb-6">
+            <p className={`text-xs font-mono uppercase tracking-widest mb-3 ${
+              plan.highlighted ? "text-white/70" : "text-[#444]"
+            }`}>
+              {plan.name}
+            </p>
+            <div className="flex items-baseline gap-1 mb-1">
+              <span className={`text-4xl font-bold tracking-tight ${
+                plan.highlighted ? "text-white" : "text-[#F0EDE6]"
+              }`}>
+                {plan.price}
+              </span>
+              <span className={`text-sm ${
+                plan.highlighted ? "text-white/60" : "text-[#444]"
+              }`}>
+                /{plan.period}
+              </span>
+            </div>
+            <p className={`text-xs ${
+              plan.highlighted ? "text-white/60" : "text-[#555]"
+            }`}>
+              {plan.desc}
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-2 mb-8">
+            {plan.features.map((feature) => (
+              <div key={feature} className="flex items-center gap-2">
+                <div className={`w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 ${
+                  plan.highlighted ? "bg-white/20" : "bg-[#1A1A1A]"
+                }`}>
+                  <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+                    <path d="M1 4L3 6L7 2" stroke={plan.highlighted ? "white" : "#FF5C1A"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <span className={`text-xs ${
+                  plan.highlighted ? "text-white/80" : "text-[#555]"
+                }`}>
+                  {feature}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <Link href="/register">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className={`w-full py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                plan.highlighted
+                  ? "bg-white text-[#FF5C1A] hover:bg-white/90"
+                  : "bg-[#1A1A1A] text-[#CCC] border border-[#2A2A2A] hover:border-[#FF5C1A] hover:text-[#FF5C1A]"
+              }`}
+            >
+              {plan.cta}
+            </motion.button>
+          </Link>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</section>
       {/* Footer */}
-      <footer id="pricing" className="border-t border-[#1A1A1A]">
+      <footer  className="border-t border-[#1A1A1A]">
         <div className="max-w-5xl mx-auto px-6 md:px-10 py-5 flex flex-col md:flex-row items-center justify-between gap-3">
           <span className="text-xs text-[#2A2A2A] font-mono">
             v1.0.0 · Made in India · Open source

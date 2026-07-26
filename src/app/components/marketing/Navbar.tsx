@@ -3,13 +3,27 @@
 import { Building2, ArrowRight, Menu, X } from "lucide-react"
 import { Button } from "../ui/Button"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const[scrolled,setScrolled] = useState(false);
+
+  useEffect(()=>{
+    const handleScroll = ()=>{
+      setScrolled(window.scrollY>20)
+    }
+    window.addEventListener("scroll",handleScroll)
+    return()=>window.removeEventListener("scroll",handleScroll)
+  },[])
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-[#1E1E1E] bg-[#0A0A0A]/90 backdrop-blur-md">
+    <nav className={`fixed top-0 left-0 right-0 z-50 border-b transition-all duration-300 ${
+      scrolled
+        ? "border-[#1E1E1E] bg-[#0A0A0A]/95 backdrop-blur-xl shadow-lg shadow-black/20"
+        : "border-transparent bg-transparent"
+    }`}>
+
 
       {/* Main bar */}
       <div className="flex items-center justify-between px-6 md:px-10 py-4">
