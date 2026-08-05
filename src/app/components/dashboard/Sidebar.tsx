@@ -13,7 +13,7 @@ import {
   LogOut,
   Building2,
 } from "lucide-react";
-import { cn } from "@/app/lib/utils";
+import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
 interface SidebarProps {

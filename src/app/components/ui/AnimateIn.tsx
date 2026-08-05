@@ -47,7 +47,6 @@ export function AnimateIn({
       }}
       transition={{
         duration:0.5,
-
         delay,
         ease:"easeOut",
       }}
