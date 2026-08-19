@@ -4,7 +4,14 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { FileCheck, Sparkles, Copy, CheckCheck, Languages } from "lucide-react";
+import {
+  FileCheck,
+  Sparkles,
+  Copy,
+  CheckCheck,
+  Languages,
+  Download,
+} from "lucide-react";
 
 const formSchema = z.object({
   type: z.enum([
@@ -56,6 +63,7 @@ export function DocumentGenerator() {
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
   const [selectedType, setSelectedType] = useState("legal_notice");
+  const [downloading, setDownloading] = useState(false);
 
   const {
     register,
@@ -110,6 +118,41 @@ export function DocumentGenerator() {
     await navigator.clipboard.writeText(result);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const downloadPDF = async () => {
+    if (!result) return;
+    setDownloading(true);
+
+    try {
+      const response = await fetch("/api/pdf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: result,
+          title: `${documentTypes.find((d) => d.value === selectedType)?.label} — Document`,
+          language,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to generate PDF");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `bharatcomply-document.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (err) {
+      console.error("Download error:", err);
+    } finally {
+      setDownloading(false);
+    }
   };
 
   return (
@@ -286,6 +329,14 @@ export function DocumentGenerator() {
                   Hindi
                 </div>
               )}
+              <button
+                onClick={downloadPDF}
+                disabled={downloading}
+                className="flex items-center gap-1.5 text-[11px] text-white/40 hover:text-white/70 transition-colors bg-[#13131F] border border-[#ffffff0f] px-3 py-1.5 rounded-lg disabled:opacity-50"
+              >
+                <Download size={12} />
+                {downloading ? "Generating..." : "Download PDF"}
+              </button>
               <button
                 onClick={copyToClipboard}
                 className="flex items-center gap-1.5 text-[11px] text-white/40 hover:text-white/70 transition-colors bg-[#13131F] border border-[#ffffff0f] px-3 py-1.5 rounded-lg"
